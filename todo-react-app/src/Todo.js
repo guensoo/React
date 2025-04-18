@@ -16,13 +16,13 @@ let Todo = (props) => {
       {/* 임의의 Todo리스트는 각 Todo마다 다른 내용을 갖고 있어야 한다. */}
       {/* 이 요구사항을 충족하기 위해 Todo컴포넌트에 title을 매개변수로 넘긴다. */}
       
-      {/* label태그는 for속성에 name값으로 연결해서 어떤 요소와 연결될지 지정 */}``
+      {/* label태그는 for속성에 name값으로 연결해서 어떤 요소와 연결될지 지정 */}
       <ListItemText>
         <InputBase
             inputProps={{"aria-label" : "naked"}}
             type="text"
             id={item.id}
-            name={item.id}
+            name={item.id} 
             value={item.title}
             multiline={true}
             fullWidth={true}
