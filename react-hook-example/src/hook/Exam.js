@@ -51,5 +51,4 @@ let Sol1 = () => {
 
 }
 
-export default WantList;
 // export ShowHide;

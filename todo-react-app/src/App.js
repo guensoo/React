@@ -16,7 +16,9 @@ function App() {
 
   //하나의 할 일을 객체로 관리할 것이다.
   //id, title, done
+  // App.js에서 받은 한가지 할 일 목록
   const [items, setItems] = useState([])
+  
 
   //Todo를 추가하기 위한 백엔드 콜을 대신할 가짜함수를 만들어보자.
   const add = (item) => {
@@ -32,6 +34,20 @@ function App() {
     console.log("items : ",[...items,newItem]);
 
   }
+  const editItem = () => {
+    setItems([...items]); // -> 얘가 재 렌더링을 해준다.
+  }
+
+  // 삭제를 해주는 deleteItem() 함수 만들기
+  // delete from 테이블 where id=0;
+  const deleteItem = (item) => {
+    // 배열에서 삭제하려고 하는 아이템을 찾는다.
+    const newItems = items.filter(e => e.id !== item.id);
+    // 삭제할 아이템을 제외한 아이템을 다시 배열에 지정한다.
+    setItems([...newItems]);
+
+  }
+
     //react는 key속성에 들어있는 값을 참고해서, 리스트의 요소가 변경될 경우
     //어떤 요소가 변경되었는지 빠르게 파악할 수 있다.
           //Paper컴포넌트
@@ -42,10 +58,18 @@ function App() {
     const todoItems = items.length > 0 &&
       <Paper style={{margin: 16}}>
          <List>
-          {items.map((item) => (<Todo item={item} key={item.id}/>))}
+          {items.map((item) => (
+            <Todo 
+            item={item} 
+            key={item.id} 
+            deleteItem={deleteItem}
+            editItem={editItem} />
+          ))}
         </List>
       </Paper>
-  console.log(items)
+  // console.log(items)
+
+
   return (
     <div className="App">
       <Container maxWidth="md">
