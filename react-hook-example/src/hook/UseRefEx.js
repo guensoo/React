@@ -17,6 +17,9 @@ import { useEffect, useRef, useState } from "react";
 // JSX로 작성한 요소를 ref속성으로 연결해주면,
 // 해당 DOM 노드에 직접 접근할 수 있다.
 
+// 이전값을 저장할 수 있다.
+// 주로 DOM을 조작할 때 많이 사용한다.
+
 export const Counter_ref = () => {
   const countRef = useRef(0);
 
@@ -136,5 +139,31 @@ export const InputSample = () => {
               {name}({nickname})
           </div>
       </div>
+  )
+}
+
+// 숫자를 증가시키면서 이전값과 현재값을 화면에 표시하는 예제
+// 컴포넌트 x
+const usePrevious = (value) => {
+  const prevRef = useRef();
+  // prevRef = {current : undefined}
+  useEffect(() => {
+    prevRef.current = value; // 최신 value를 저장
+  }, [value])
+  return prevRef.current;
+}
+
+export const PreviousValue = () => {
+  const [count, setCount] = useState(0);
+  const prevCount = usePrevious(count); // 이전값을 저장
+
+  return(
+    <div>
+      <h2>현재값 : {count}</h2>
+      <h3>이전값 : {prevCount !== undefined ? prevCount : '없음'}</h3>
+      <button onClick={() => setCount(c => c + 1)}>
+        증가({count})
+        </button>
+    </div>
   )
 }

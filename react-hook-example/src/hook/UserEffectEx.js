@@ -109,9 +109,34 @@ export const Count = () => {
       <button onClick={clicker}>클릭</button>
     </div>
   )
+}
 
+//person = {name:"홍길동", age:24}
+//props.peron = {name:"홍길동", age:24}
+export const Cleanup = (props) => {
+  // App.js에서 value를 받아서 화면에 출력하기
 
+  let value = props.person.age;
 
+  const [value2, setValue] = useState(value);
+
+  useEffect(() => {
+    console.log(`▶ 이펙트 실행 : ${value2}`)
+
+    // 클린업 함수
+    // 사이드 이펙트 함수의 return에 들어있는 함수
+    return () => {console.log(`■ 정리(cleanup) : ${value2}`)
+  }
+  },[value2]);
+  
+  return(
+    <div>
+      <p>현재 value : {value2}</p>
+      <button onClick={() => setValue(v => v+1)}>
+        value 증가({value2})
+      </button>
+    </div>
+  )
 }
 
 export default TimerFunction;
