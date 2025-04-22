@@ -10,8 +10,11 @@ import {Link} from 'react-router-dom';
 const Navbar = () => {
   return(
     <div>
-    <Link>홈</Link>
-    <Link>소개</Link>
+      {/* a태그의 역할을 하는 태그 */}
+      <Link to="/home">홈</Link><br/>
+      <Link to="/about">소개</Link>
     </div>
   )
 }
+
+export {Navbar};
