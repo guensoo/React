@@ -64,6 +64,9 @@ const Homee = () => {
         <h2>카테고리 페이지입니다</h2>
         <ul>
           {categories.map(category => (
+            // key에 고유한 값이 들어가는건 맞음.
+            // li의 값이 변경될 때 react가 구분을 하는 값으로 인식
+            // 효율적으로 파악하기 위한 고유 식별자 역할을 한다.
             <li key={category.id}>
               <Link to={`/categories/${category.id}`}>
               {category.name} 상품 보기
@@ -117,16 +120,25 @@ const Detail = () => {
       { id: 6, name: '우유', description: '신선한 우유입니다.', categoryId: '3' },
     ];
 
-    const filterDetail = p_detail.filter(p => p.id === Number(productId))
+    // filter : 원하는 조건이 없을 때 빈 배열을 반환
+    // find : 못찾으면 undefined를 반환한다.
+    const filterDetail = p_detail.find(p => p.id === Number(productId))
+    
+    // filter를 사용해서 빈 배열이 들어가게 되면 true로 인식을 한다.
+    if(!filterDetail){
+      return( <div>
+        <h2>"상품정보가 없습니다."</h2>
+        </div>)
+    }
+
     return (
-      
       <div>
-        {filterDetail.map(detail => (
-          <div  key={detail.id}>
-          <h2>{detail.name} 상세정보 페이지입니다</h2>
-        <p>{detail.description}</p>
+          <div>
+          <h2>{filterDetail.name} 상세정보 페이지입니다</h2>
+          <p>카테고리 ID : {filterDetail.categoryId}</p>
+          <p>상품 ID : {filterDetail.id}</p>
+          <p>{filterDetail.description}</p>
         </div>
-        ))}
       </div>
     )
 }
