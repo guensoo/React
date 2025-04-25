@@ -5,6 +5,7 @@ import { Fetch, Axios } from './Async';
 import { FetchExam } from './FetchExam';
 import { Users } from './UserList';
 import { BlogApp } from './BlogAnswer';
+import { PromiseDemo } from './Promise';
 
 function App() {
   return (
@@ -14,7 +15,8 @@ function App() {
       {/* <Axios /> */}
       {/* <FetchExam /> */}
       {/* <Users /> */}
-      <BlogApp />
+      {/* <BlogApp /> */}
+      <PromiseDemo />
     </div>
   );
 }
