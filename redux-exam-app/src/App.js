@@ -3,6 +3,7 @@ import './App.css';
 import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { addTodo, removeTodo } from './actions';
+import { Counter } from './component/counter';
 
 const TodoApp = () =>{
   const [input,setInput] = useState('');
