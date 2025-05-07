@@ -25,8 +25,9 @@ let Todo = (props) => {
   }
 
   const turnOnReadOnly = (e) => {
-    if(e.key == 'Enter'){
-      setReadOnly(true);
+    if(e.key == 'Enter' && readOnly === false){
+      setReadOnly(true); // readOnly true가 읽기만 허용
+      editItem(item);
     }
   }
 
@@ -39,7 +40,7 @@ let Todo = (props) => {
   // }
 
   const editEventHandler = (e) => {
-    item.title = e.target.value
+    setItem({...item, title:e.target.value})
   }
 
   // 체크박스 변경함수

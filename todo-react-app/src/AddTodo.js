@@ -38,7 +38,7 @@ const AddTodo = ({add}) => {
 
     const [item, setItem] = useState({title:""});
 
-    const onIputCahnge = (e) => {
+    const onInputChange = (e) => {
         setItem({title:e.target.value});
         console.log({title:e.target.value});
     }
@@ -70,7 +70,7 @@ const AddTodo = ({add}) => {
                     placeholder='Add Todo here' 
                     fullWidth
                     value={item.title}
-                    onChange={onIputCahnge}
+                    onChange={onInputChange}
                     onKeyDown={enterKeyEventHandler} />
             </Grid>
             <Grid xs={1} md={1} item>

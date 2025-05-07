@@ -1,8 +1,10 @@
-import {useState} from 'react'
+import {useState, useEffect} from 'react'
 import logo from './logo.svg';
 import Todo from './Todo';
 import AddTodo from './AddTodo';
 import {Container, List, Paper} from '@mui/material'
+import axios from 'axios'
+import { call } from './ApiService';
 
 //Container
 //레이아웃의 가로 폭을 제한하고, 중앙 정렬 및 기본 패딩을 자동으로 적용해주는 컴포넌트
@@ -19,32 +21,30 @@ function App() {
   // App.js에서 받은 한가지 할 일 목록
   const [items, setItems] = useState([])
   
+  // 최초 렌더링시 1번만 실행
+  useEffect(() => {
+    // 조회
+    call("/todo","GET")
+      .then(result => setItems(result.data))
+  },[])
 
-  //Todo를 추가하기 위한 백엔드 콜을 대신할 가짜함수를 만들어보자.
   const add = (item) => {
-    //newItem 객체가 하나의 Todo
-    const newItem = {
-      ...item,
-      id: "ID-" + items.length,
-      done:false,
-    }
-
-    //상태를 변화시키는 함수를 호출하면 state의 변경사항이 화면에 적용이된다.
-    setItems(prev => [...prev, newItem])
-    console.log("items : ",[...items,newItem]);
-
+    // 데이터베이스에 추가하기 위해 백엔드로 데이터를 전달
+    call("/todo", "POST", item)
+    // 데이터를 추가하고, 전체 데이터를 반환받아서 state에 세팅을 하여
+    // 다시 렌더링이 일어남
+      .then(result => setItems(result.data))
   }
-  const editItem = () => {
-    setItems([...items]); // -> 얘가 재 렌더링을 해준다.
+  const editItem = (item) => {
+    call("/todo", "PUT", item)
+      .then(result => setItems(result.data))
   }
 
   // 삭제를 해주는 deleteItem() 함수 만들기
   // delete from 테이블 where id=0;
   const deleteItem = (item) => {
-    // 배열에서 삭제하려고 하는 아이템을 찾는다.
-    const newItems = items.filter(e => e.id !== item.id);
-    // 삭제할 아이템을 제외한 아이템을 다시 배열에 지정한다.
-    setItems([...newItems]);
+    call("/todo", "DELETE", item)
+      .then(result => setItems(result.data))
 
   }
 
