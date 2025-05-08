@@ -15,9 +15,11 @@ import DeleteOutlined from '@mui/icons-material/DeleteOutlined'
 let Todo = (props) => {
 
   // App.js에서 받은 한가지 할 일
-  const[item,setItem] = useState(props.item);
+  const item = props.item;
   const [readOnly, setReadOnly] = useState(true);
   const editItem = props.editItem;
+
+  
 
   // true -> false로 바꾸는 trunOffReadOnly 함수 추가
   const turnOffReadOnly = () => {
@@ -40,13 +42,13 @@ let Todo = (props) => {
   // }
 
   const editEventHandler = (e) => {
-    setItem({...item, title:e.target.value})
-  }
+    const updatedItem = { ...item, title: e.target.value };
+    editItem(updatedItem);
+  };
 
   // 체크박스 변경함수
   const checkBoxEventHandler = (e) => {
-    item.done = e.target.checked;
-    editItem();
+    editItem({ ...item, done: e.target.checked });
   }
   // 삭제함수
   const deleteItem = props.deleteItem;

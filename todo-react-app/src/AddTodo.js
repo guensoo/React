@@ -36,10 +36,10 @@ import {Button,Grid,TextField} from '@mui/material'
 // props로 넘어온 내용을 받아서 사용할 준비가 끝남
 const AddTodo = ({add}) => {
 
-    const [item, setItem] = useState({title:""});
+    const [item, setItem] = useState({title:"", done: false});
 
     const onInputChange = (e) => {
-        setItem({title:e.target.value});
+        setItem({...item, title:e.target.value});
         console.log({title:e.target.value});
     }
 
@@ -50,7 +50,7 @@ const AddTodo = ({add}) => {
         }
         // props로 넘겨받은 add함수를 호출
         add(item); //add({title:'내용'})
-        setItem({title:""})//함수에 전달을 하고 나면 입력필드를 비워준다.
+        setItem({title:"", done:false})//함수에 전달을 하고 나면 입력필드를 비워준다.
     }
 
     const enterKeyEventHandler = (e) =>{

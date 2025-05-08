@@ -23,10 +23,12 @@ function App() {
   
   // 최초 렌더링시 1번만 실행
   useEffect(() => {
+    console.log("test")
     // 조회
     call("/todo","GET")
       .then(result => setItems(result.data))
   },[])
+  
 
   const add = (item) => {
     // 데이터베이스에 추가하기 위해 백엔드로 데이터를 전달
@@ -35,7 +37,9 @@ function App() {
     // 다시 렌더링이 일어남
       .then(result => setItems(result.data))
   }
+
   const editItem = (item) => {
+    const userId = "tempUser";
     call("/todo", "PUT", item)
       .then(result => setItems(result.data))
   }
@@ -55,7 +59,7 @@ function App() {
       //elevation(그림자깊이)를 통해 높낮이를 표현하고
       //배경색과 그림자 효과로 콘텐츠를 돋보이게 한다.
       {/*일련의 항목을 세로로 나열하는 컨테이너 역할 */}
-    const todoItems = items.length > 0 &&
+    const todoItems = Array.isArray(items) && items.length > 0 &&
       <Paper style={{margin: 16}}>
          <List>
           {items.map((item) => (
