@@ -42,7 +42,6 @@ const AddTodo = ({add}) => {
         setItem({...item, title:e.target.value});
         console.log({title:e.target.value});
     }
-
     const onButtonClick = () => {
         if(item.title.trim() === ''){
             alert('내용을 입력하세요');

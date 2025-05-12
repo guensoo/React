@@ -29,8 +29,32 @@ export function call(api, method, request){
       console.log(response.data);
       return response.data;
     })
+    // .catch(error => {
+    //   if(error.response && error.response.status === 403){
+    //     console.log("에러코드 : ",error.status);
+    //     console.warn("🔒 403 에러 발생! 로그인 페이지로 이동 예정");
+    //     console.log("📡 전체 에러 응답:", error.response);
+    //     window.location.href="/login";
+    //     setTimeout(() => {
+    //       window.location.href = "/login";
+    //     }, 1000);
+    //   }
+    //   return Promise.reject(error);
+    // });
     .catch(error => {
-      const m_error = error;
-      return m_error;
-    })
+      console.log("에러코드 : ", error.status);
+      if(error.status === 403){
+        // 403코드면 로그인 path로 가라
+          window.location.href="/login";
+      }
+  })
+}
+
+export function signin(userDTO){
+  return call("/auth/signin", "POST", userDTO)
+      .then(response => {
+        console.log("response : ", response);
+        alert("로그인 토큰 : " + response.token);
+        return response;
+      })
 }
