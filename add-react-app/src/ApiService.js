@@ -1,5 +1,5 @@
 import axios from 'axios'
-import { API_BASE_URL } from './api-config'
+import { API_BASE_URL } from './api'
 
 // 1. axios 객체 생성
 // 바뀌지 않는 공통적인 기본설정
@@ -16,29 +16,29 @@ const apiClient = axios.create({
 
 // 2. 요청 인터셉터로 토큰 자동 첨부
 // interceptors.request.use(onFulfilled, onRejected) : 역할이 서버로 전송되기 전에 호출될 콜백함수를 등록한다.
-apiClient.interceptors.request.use(config => {
-  const token = localStorage.getItem("ACCESS_TOKEN")
-  if(token){
-    config.headers.Authorization = `Bearer ${token}`
-  }
-  return config;
-})
+// apiClient.interceptors.request.use(config => {
+//   const token = localStorage.getItem("ACCESS_TOKEN")
+//   if(token){
+//     config.headers.Authorization = `Bearer ${token}`
+//   }
+//   return config;
+// })
 
-// 3. 응답 인터셉터로 403처리
-// interceptors.request.use(onFulfilled, onRejected) : 서버로부터 응답을 받은 직후에 호출될 콜백을 등록한다.
-// ?.(옵셔널체이닝) : null이나 undefined가 있을 수 있는 객체의 프로퍼티로 접근할 때, 에러를 방지하고, 안전하게 값을 조회하거나 호출할 수 있게 해준다.
-// null 또는 undefined일 경우 즉시 undefined를 반환하고 그 뒤 연산은 생략한다.
-apiClient.interceptors.response.use(response => response,
-  error => {
-    const status = error.response?.status
-    console.log(error.response.status)
-    if(status === 403){
-      window.location.href='/login'
-    }
-    // 이 에러가 다음 catch블록이나 호출 측으로 전달되도록 한다.
-    return Promise.reject(error);
-  }
-)
+// // 3. 응답 인터셉터로 403처리
+// // interceptors.request.use(onFulfilled, onRejected) : 서버로부터 응답을 받은 직후에 호출될 콜백을 등록한다.
+// // ?.(옵셔널체이닝) : null이나 undefined가 있을 수 있는 객체의 프로퍼티로 접근할 때, 에러를 방지하고, 안전하게 값을 조회하거나 호출할 숭 ㅣㅆ게 해준다.
+// // null 또는 undefined일 경우 즉시 undefined를 반환하고 그 뒤 연산은 생략한다.
+// apiClient.interceptors.response.use(response => response,
+//   error => {
+//     const status = error.response?.status
+//     console.log(error.response.status)
+//     if(status === 403){
+//       window.location.href='/login'
+//     }
+//     // 이 에러가 다음 catch블록이나 호출 측으로 전달되도록 한다.
+//     return Promise.reject(error);
+//   }
+// )
 
 // 백엔드에 요청을 대신 해주는 메서드를 만들것이다.
 // api : 호출할 API의 경로(/todo, /users)
@@ -132,13 +132,13 @@ export function signin(userDTO){
       })
 }
 
-export function signout(){
-  // 로컬스토리지에 있는 토큰을 없앤다.
-  localStorage.setItem("ACCESS_TOKEN",null);
-  window.location.href="/login";
-}
+// export function signout(){
+//   // 로컬스토리지에 있는 토큰을 없앤다.
+//   localStorage.setItem("ACCESS_TOKEN",null);
+//   window.location.href="/login";
+// }
 
-// 계정 생성
+// 상품 추가
 export function signup(userDTO){
   return call("/auth/signup","POST",userDTO);
 }
