@@ -11,6 +11,13 @@ export function Get(){
       setProducts(res.data);
     });
   },[]);
+
+  // 상품 추가 기능
+  const addItem = () => {
+    call("/products","POST",product);
+    .then(res => setItems(res))
+  }
+
   const handleSubmit = () => {
     console.log("요청을 보냅니다.")
   }
