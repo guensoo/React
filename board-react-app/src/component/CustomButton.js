@@ -7,3 +7,5 @@ const CustomButton = ({label, variant="contained", color="primary", onClick}) =>
     </Button>
   )
 }
+
+export default CustomButton;
