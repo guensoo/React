@@ -5,14 +5,16 @@ import CustomInput from '../component/CustomInput'
 import { Grid, Button, TextField } from '@mui/material'
 import {Link, useNavigate} from 'react-router-dom'
 import BoardList from './BoardList'
+import { API_BASE_URL } from '../api-config'
+import axios from 'axios'
 
 const WritePost = () => {
 
   const {boardList, setBoardList} = useContext(BoardContext);
 
   const [title, setTitle] = useState("");
-  const [auth, setAuth] = useState("");
-  const [text, setText] = useState("");
+  const [author, setAuthor] = useState("");
+  const [content, setContent] = useState("");
   const multiline = true;
   const rows = 8;
   const readOnly = false;
@@ -21,23 +23,32 @@ const WritePost = () => {
 
   const savePost = (e) => {
     e.preventDefault();
+    
     const newPost = {
-      id:boardList.length + 1,
+      // id:boardList.length + 1,
       title,
-      auth,
+      author,
       writingTime : new Date().toISOString(),
-      text,
+      content,
     }
+    axios({
+      method: 'POST',
+      url: API_BASE_URL+'/add',
+      data: newPost
+    })
+    .then(res => {
+      console.log(res.data)
+      alert('게시물이 등록되었습니다.')
+      navigate("/");
+    })
+    .catch((err) => {
+      console.error("등록 실패 오류 발생 : "+err)
+    })
 
-    setBoardList([...boardList,newPost]);
-    alert('게시물이 등록되었습니다.')
-    navigate("/");
+    
   }
 
-  const backToBoard = () => {
-    navigate("/");
-  }
-
+  
 
   const handleCancelPost = () => {
     navigate("/")
@@ -60,8 +71,8 @@ const WritePost = () => {
       <Grid>
         <CustomInput
           label="작성자"
-          value={auth}
-          onChange={(e) => setAuth(e.target.value)}
+          value={author}
+          onChange={(e) => setAuthor(e.target.value)}
           placeholder='작성자'
           readOnly={false}
           />
@@ -69,8 +80,8 @@ const WritePost = () => {
       <Grid>
         <CustomInput
           label="내용"
-          value={text}
-          onChange={(e) => setText(e.target.value)}
+          value={content}
+          onChange={(e) => setContent(e.target.value)}
           placeholder='내용'
           multiline={multiline}
           rows={rows}

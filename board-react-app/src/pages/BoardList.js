@@ -4,6 +4,8 @@ import {Link, useNavigate} from 'react-router-dom'
 import { BoardContext } from '../context/BoardContext'
 import { mokData } from './mokData'
 import '../css/BoardList.css'
+import { call } from '../ApiService';
+import { API_BASE_URL } from '../api-config'
 
 const BoardList = () => {
 
@@ -12,17 +14,28 @@ const BoardList = () => {
   const [currentPage, setCurrentPage] = useState(1); // 현재 페이지
   const [postsPerPage, setPostsPerPage] = useState(3); // 한 페이지에 보여줄 게시물 개수
   const [totalPages, setTotalPages] = useState(1); // 총 페이지 수
-
+  const [items, setItems] = useState([])
+  const [loading, setLoading] = useState(true)
+  // 최초 렌더링시 1번만 실행
   const navigate = useNavigate();
 
   useEffect(() => {
     // 백엔드와 통신하는 척 boardList에 가짜데이터를 넣는다.
     // setBoardList(mokData);
     // 게시판의 총 페이지 수
-    setTotalPages(Math.ceil(mokData.length/postsPerPage));
+    setTotalPages(Math.ceil(boardList.length/postsPerPage));
     setCurrentPage(1);
+    axios({
+      method: 'GET',
+      url: API_BASE_URL+'/all',
+    })
+    .then(res => {
+      setBoardList(res.data)
+      console.log(res.data)
+      navigate("/");
+    })
     // 게시글 개수와, 총 페이지 수가 변할 때마다 재렌더링
-  },[postsPerPage,boardList.length])
+  },[])
 
   // 페이지 계산
   // 현재 페이지의 마지막 게시글 인덱스 + 1을 구한다.
@@ -56,6 +69,9 @@ const BoardList = () => {
       </div>
       <br />
       {/* 목업데이터 출력하기 */}
+      {boardList.length === 0 ? (
+        <h3>게시글이 없습니다.</h3>
+      ) : (
       <ul className='board-posts'>
         {currentPosts.map((board) => (
           <li key={board.id} className='board-post-item'>
@@ -65,7 +81,8 @@ const BoardList = () => {
           </li>
         ))}
       </ul>
-      {/* 한번에 보여줄 게시글 수 */}
+      )}
+      {/* 한번에 보여줄 게시글 수  */}
       <div className='board-posts-per-page'>
         <label>
           게시물 수 : {" "}
@@ -92,6 +109,7 @@ const BoardList = () => {
           </button>
         ))}
       </div>
+      
     </div>
   )
 }

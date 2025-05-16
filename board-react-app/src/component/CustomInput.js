@@ -2,6 +2,7 @@ import { TextField } from "@mui/material";
 
 const CustomInput = ({
   label,
+  name,
   type="text",
   multiline = false,
   rows = 1,
@@ -14,6 +15,7 @@ const CustomInput = ({
     <TextField
       fullWidth
       label={label}
+      name={name}
       type={type}
       multiline={multiline}
       rows={rows}
